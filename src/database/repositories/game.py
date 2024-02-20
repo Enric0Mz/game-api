@@ -5,7 +5,7 @@ from .repository import Repository
 
 
 class GameRepository(Repository):
-    def to_dto(obj: GameModel) -> schemas.Game:
+    def to_dto(self, obj: GameModel) -> schemas.Game:
         return schemas.Game.model_validate(
             {
                 "subject": obj.subject,
@@ -14,6 +14,6 @@ class GameRepository(Repository):
             }
         )
 
-    async def create(self, payload) -> schemas.Game:
-        result = await self.context.acquire_session().save(GameModel(**payload))
+    async def create(self, payload: schemas.CreateGame) -> schemas.Game:
+        result = await self.context.acquire_session().save(GameModel(**payload.model_dump()))
         return self.to_dto(result)
