@@ -14,6 +14,6 @@ class GameRepository(Repository):
             }
         )
 
-    async def crete(self, payload) -> schemas.Game:
+    async def create(self, payload) -> schemas.Game:
         result = await self.context.acquire_session().save(GameModel(**payload))
         return self.to_dto(result)

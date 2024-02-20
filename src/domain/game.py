@@ -3,6 +3,7 @@ from datetime import datetime
 from src.database.connection import DbConnectionHandler
 from src.database.repositories.game import GameRepository
 
+from src import models
 from src import schemas
 
 
