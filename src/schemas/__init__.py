@@ -1,6 +1,8 @@
 from .game import Game
+from .game import CreateGame
 
 
 __all__ = [
-    "Game"
+    "Game",
+    "CreateGame" 
 ]
