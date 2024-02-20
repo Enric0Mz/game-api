@@ -9,6 +9,9 @@ readme = "README.md"
 python = "^3.10"
 fastapi = "^0.109.2"
 odmantic = "^1.0.0"
+yarl = "^1.9.4"
+lazy-fields = "^1.0.1"
+env-star = "^2.3.0"
 
 
 [build-system]
