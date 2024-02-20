@@ -2,7 +2,7 @@
 name = "game-api"
 version = "0.1.0"
 description = ""
-authors = ["enrico <enrico.marquez@duko.com.br>"]
+authors = ["enrico <enricovmarquezz@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
