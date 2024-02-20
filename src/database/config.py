@@ -7,6 +7,6 @@ engine = DbConnectionHandler()
 
 async def database_config():
     await engine.acquire_session().configure_database(
-        [],
+        [models.GameModel],
         update_existing_indexes=True,
     )
