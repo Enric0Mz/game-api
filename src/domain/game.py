@@ -16,8 +16,8 @@ class ListGameUseCase:
         curdate = datetime.utcnow()
         result = await self._repository.fetch(
             query.and_(
-                query.gte(GameModel.created_at, curdate),
-                query.lte(GameModel.finish_at, curdate)
+                query.lte(GameModel.start_at, curdate),
+                query.gte(GameModel.finish_at, curdate)
             )
         )
         return result
