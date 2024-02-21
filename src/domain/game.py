@@ -1,10 +1,26 @@
 from datetime import datetime
+from odmantic import query
 
 from src.database.connection import DbConnectionHandler
 from src.database.repositories.game import GameRepository
 
-from src import models
+from src.models import GameModel
 from src import schemas
+
+
+class ListGameUseCase:
+    def __init__(self, context: DbConnectionHandler) -> None:
+        self._repository = GameRepository(context)
+
+    async def execute(self):
+        curdate = datetime.utcnow()
+        result = await self._repository.fetch(
+            query.and_(
+                query.gte(GameModel.created_at, curdate),
+                query.lte(GameModel.finish_at, curdate)
+            )
+        )
+        return result
 
 
 class CreateGameUseCase:

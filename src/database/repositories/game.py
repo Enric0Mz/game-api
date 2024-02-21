@@ -1,3 +1,5 @@
+from odmantic.query import QueryExpression
+
 from src.models.game import GameModel
 from src import schemas
 
@@ -13,6 +15,10 @@ class GameRepository(Repository):
                 "finish_at": obj.finish_at
             }
         )
+
+    async def fetch(self, clause: QueryExpression):
+        result = await self.context.acquire_session().find(GameModel, clause)
+        return [self.to_dto(obj) for obj in result]
 
     async def create(self, payload: schemas.CreateGame) -> schemas.Game:
         result = await self.context.acquire_session().save(GameModel(**payload.model_dump()))
