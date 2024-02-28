@@ -25,6 +25,6 @@ class GameModelEmbedded(EmbeddedModel):
 class QuestionModel(Model):
     name: str
     choices: list[ChoiceModel]
-    questionType: str
+    question_type: QuestyonTypeModelEmbedded
     game: GameModelEmbedded
     point_value: int

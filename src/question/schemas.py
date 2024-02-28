@@ -16,6 +16,6 @@ class QuestyonType(Schema):
 class Question(Schema):
     name: str
     choices: list[Choice]
-    questionType: QuestyonType
+    question_type: QuestyonType
     game: Game
     point_value: int
