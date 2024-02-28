@@ -1,5 +1,15 @@
+from enum import Enum
+
 from src.api.schema import Schema
 from src.game.schemas import Game
+
+
+class Difficulty(Enum, str):
+    VERY_EAZY = "very_eazy"
+    EAZY = "eazy"
+    MEDIUM = "medium"
+    HARD = "hard"
+    VERY_HARD = "very_hard"
 
 
 class Choice(Schema):
@@ -9,7 +19,7 @@ class Choice(Schema):
 
 
 class QuestyonType(Schema):
-    difficulty: str
+    difficulty: Difficulty
     point_multiplier: int
 
 

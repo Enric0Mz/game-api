@@ -17,3 +17,12 @@ class QuestionRepository(Repository):
                 "poin_value": obj.point_value
             }
         )
+    
+    async def fetch(self, clause: QueryExpression):
+        result = await self.context.acquire_session().find(QuestionModel, clause)
+        return [self.to_dto(obj) for obj in result]
+
+    async def create(self, payload: schemas.Question):
+        result = self.context.acquire_session().save(QuestionModel(**payload.model_dump()))
+        return self.to_dto(result)
+    
