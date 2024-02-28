@@ -27,5 +27,8 @@ class Question(Schema):
     name: str
     choices: list[Choice]
     question_type: QuestyonType
-    game: Game
     point_value: int
+
+
+class ExtendedQuestion(Schema):
+    game: Game

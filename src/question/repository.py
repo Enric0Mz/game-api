@@ -7,8 +7,8 @@ from . import schemas
 
 
 class QuestionRepository(Repository):
-    def to_dto(self, obj: QuestionModel) -> schemas.Question:
-        return schemas.Question.model_validate(
+    def to_dto(self, obj: QuestionModel) -> schemas.ExtendedQuestion:
+        return schemas.ExtendedQuestion.model_validate(
             {
                 "name": obj.name,
                 "choices": [choice for choice in obj.choices],
@@ -22,7 +22,6 @@ class QuestionRepository(Repository):
         result = await self.context.acquire_session().find(QuestionModel, clause)
         return [self.to_dto(obj) for obj in result]
 
-    async def create(self, payload: schemas.Question):
+    async def create(self, payload: schemas.ExtendedQuestion):
         result = self.context.acquire_session().save(QuestionModel(**payload.model_dump()))
         return self.to_dto(result)
-    
