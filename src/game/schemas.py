@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from .schema import Schema
+from src.api.schema import Schema
 
 
 class Game(Schema):

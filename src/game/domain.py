@@ -2,10 +2,10 @@ from datetime import datetime
 from odmantic import query
 
 from src.database.connection import DbConnectionHandler
-from src.database.repositories.game import GameRepository
+from src.game.repository import GameRepository
 
-from src.models import GameModel
-from src import schemas
+from .models import GameModel
+from . import schemas
 
 
 class ListGameUseCase:

@@ -1,12 +1,12 @@
 from .connection import DbConnectionHandler
 
-from src import models
+from src.game.models import GameModel
 
 engine = DbConnectionHandler()
 
 
 async def database_config():
     await engine.acquire_session().configure_database(
-        [models.GameModel],
+        [GameModel],
         update_existing_indexes=True,
     )

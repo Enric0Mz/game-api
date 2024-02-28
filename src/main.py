@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from src.routes.core import router
+from .routes import router
 from src.api.events import lifespan
 
 

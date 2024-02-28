@@ -1,9 +1,9 @@
 from odmantic.query import QueryExpression
 
-from src.models.game import GameModel
-from src import schemas
+from src.game.models import GameModel
+from src.game import schemas
 
-from .repository import Repository
+from src.database.repository import Repository
 
 
 class GameRepository(Repository):
