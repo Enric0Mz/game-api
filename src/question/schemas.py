@@ -2,25 +2,13 @@ from enum import Enum
 
 from src.api.schema import Schema
 from src.game.schemas import Game
-
-
-class Difficulty(Enum):
-    VERY_EASY = "very_easy"
-    EASY = "easy"
-    MEDIUM = "medium"
-    HARD = "hard"
-    VERY_HARD = "very_hard"
-
+from src.question_type.schemas import Difficulty
+from src.question_type.schemas import QuestyonType
 
 class Choice(Schema):
     name: str
     correct: bool
     position: int
-
-
-class QuestyonType(Schema):
-    difficulty: Difficulty
-    point_multiplier: int
 
 
 class Question(Schema):
