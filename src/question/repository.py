@@ -2,8 +2,8 @@ from odmantic.query import QueryExpression
 
 from src.database.repository import Repository
 
-from .models import QuestionModel
-from . import schemas
+from src.question.models import QuestionModel
+from src.question import schemas
 
 
 class QuestionRepository(Repository):

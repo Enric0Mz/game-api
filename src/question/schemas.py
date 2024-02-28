@@ -4,9 +4,9 @@ from src.api.schema import Schema
 from src.game.schemas import Game
 
 
-class Difficulty(Enum, str):
-    VERY_EAZY = "very_eazy"
-    EAZY = "eazy"
+class Difficulty(Enum):
+    VERY_EASY = "very_easy"
+    EASY = "easy"
     MEDIUM = "medium"
     HARD = "hard"
     VERY_HARD = "very_hard"
