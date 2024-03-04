@@ -5,7 +5,6 @@ from src.api.schema import Schema
 
 
 class Game(Schema):
-    id_: ObjectId
     subject: str
     start_at: datetime
     finish_at: datetime
@@ -13,3 +12,9 @@ class Game(Schema):
 
 class CreateGame(Game):
     created_at: datetime
+
+
+class ExtendedGame(CreateGame):
+    id_: ObjectId 
+
+

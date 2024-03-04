@@ -12,7 +12,7 @@ from . import schemas
 router = APIRouter()
 
 
-@router.get("/", response_model=list[schemas.Game])
+@router.get("/", response_model=list[schemas.ExtendedGame])
 async def list_game(
     context: DbConnectionHandler = Depends(
         dependencies.get_database_connection)

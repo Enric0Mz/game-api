@@ -20,7 +20,6 @@ class CreateQuestionUseCase:
         game = await self._game_repository.get(
             query.eq(GameModel.id, ObjectId(self._game_id))
         )
-        print(game.model_dump())
         return await self._repository.create(
             schemas.ExtendedQuestion(
                 name=self._payload.name,
