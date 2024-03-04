@@ -8,11 +8,12 @@ from src.database.repository import Repository
 
 class GameRepository(Repository):
     def to_dto(self, obj: GameModel) -> schemas.Game:
-        return schemas.Game.model_validate(
+        return schemas.CreateGame.model_validate(
             {
                 "id": obj.id,
                 "subject": obj.subject,
                 "start_at": obj.start_at,
+                "created_at": obj.created_at,
                 "finish_at": obj.finish_at
             }
         )

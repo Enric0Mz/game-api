@@ -13,10 +13,10 @@ from . import schemas
 router = APIRouter()
 
 
-@router.post("/{game_id}", response_model=schemas.ExtendedQuestion)
+@router.post("/{game_id}", status_code=204)
 async def create_question(
     context: DbConnectionHandler = Depends(dependencies.get_database_connection),
     payload: schemas.Question = Body(...), 
     game_id: str = Path(...)
 ):
-    domain.CreateQuestionUseCase(context, payload, game_id).execute()
+    return await domain.CreateQuestionUseCase(context, payload, game_id).execute()

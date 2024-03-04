@@ -23,5 +23,5 @@ class QuestionRepository(Repository):
         return [self.to_dto(obj) for obj in result]
 
     async def create(self, payload: schemas.ExtendedQuestion):
-        result = self.context.acquire_session().save(QuestionModel(**payload.model_dump()))
-        return self.to_dto(result)
+        await self.context.acquire_session().save(QuestionModel(**payload.model_dump()))
+        

@@ -1,4 +1,5 @@
 from odmantic import query
+from odmantic import ObjectId
 
 from src.database.connection import DbConnectionHandler
 from src.game.repository import GameRepository
@@ -16,11 +17,11 @@ class CreateQuestionUseCase:
         self._game_id = game_id
 
     async def execute(self):
-        game = self._game_repository.get(
-            query.eq(self._game_id, GameModel.id)
+        game = await self._game_repository.get(
+            query.eq(GameModel.id, ObjectId(self._game_id))
         )
-
-        return self._repository.create(
+        print(game.model_dump())
+        return await self._repository.create(
             schemas.ExtendedQuestion(
                 name=self._payload.name,
                 question_type=self._payload.question_type,

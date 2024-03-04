@@ -1,7 +1,7 @@
 from enum import Enum
 
 from src.api.schema import Schema
-from src.game.schemas import Game
+from src.game.schemas import CreateGame
 from src.question_type.schemas import Difficulty
 from src.question_type.schemas import QuestyonType
 
@@ -18,5 +18,5 @@ class Question(Schema):
     point_value: int
 
 
-class ExtendedQuestion(Schema):
-    game: Game
+class ExtendedQuestion(Question):
+    game: CreateGame
