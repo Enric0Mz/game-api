@@ -15,7 +15,7 @@ class ChoiceModelEmbedded(EmbeddedModel):
     position: int
 
 
-class GameQuestionEmbedded(EmbeddedModel):
+class QuestionModelEmbedded(EmbeddedModel):
     id: ObjectId
     question: str
     question_type: QuestyonTypeModel
@@ -24,14 +24,14 @@ class GameQuestionEmbedded(EmbeddedModel):
 
 
 
-class Answer(Model):
+class AnswerModel(Model):
     user_id: int
     name: str
     created_at: datetime
     choice: ChoiceModelEmbedded
-    question: GameQuestionEmbedded
+    question: QuestionModelEmbedded
 
     class Config:
         @staticmethod
         def indexes():
-            yield Index(Answer.user_id)
+            yield Index(AnswerModel.user_id)
