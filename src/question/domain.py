@@ -1,3 +1,5 @@
+import random
+
 from odmantic import query
 from odmantic import ObjectId
 
@@ -18,6 +20,18 @@ class ListQuestionUseCase:
     async def execute(self):
         result = await self._repository.fetch(query.eq(QuestionModel.game.id_, ObjectId(self._game_id)))
         return {"data": result}
+    
+
+class GetRandomQuestionUseCase:
+    def __init__(self, context: DbConnectionHandler, game_id: int) -> None:
+        self._repository = QuestionRepository(context)
+        self._game_id = game_id
+
+    async def execute(self):
+        questions = await self._repository.fetch(query.eq(QuestionModel.game.id_, ObjectId(self._game_id)))
+
+        return random.choice(questions)
+
 
 class CreateQuestionUseCase:
     def __init__(self, context: DbConnectionHandler, payload: schemas.Question, game_id: int) -> None:

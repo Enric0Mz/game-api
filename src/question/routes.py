@@ -22,6 +22,14 @@ async def list_question(
     return await domain.ListQuestionUseCase(context, game_id).execute()
 
 
+@router.get("/random/{game_id}", response_model=schemas.Question)
+async def get_random_question(
+    context: DbConnectionHandler = Depends(dependencies.get_database_connection),
+    game_id: str = Path(...)
+):
+    return await domain.GetRandomQuestionUseCase(context, game_id).execute()
+
+
 @router.post("/{game_id}", status_code=204)
 async def create_question(
     context: DbConnectionHandler = Depends(dependencies.get_database_connection),
