@@ -15,3 +15,9 @@ class AnswerRepository(Repository):
                 "question": obj.question
             }
         )
+
+
+
+    async def create(self, payload: schemas.Answer):
+        obj = self.context.acquire_session().save(AnswerModel(**payload.model_dump()))
+        return self.to_dto(obj)
