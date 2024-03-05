@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from odmantic import ObjectId
 from odmantic import Model
 from odmantic import EmbeddedModel
 
@@ -16,6 +17,7 @@ class QuestyonTypeModelEmbedded(EmbeddedModel):
 
 
 class GameModelEmbedded(EmbeddedModel):
+    id_: ObjectId
     subject: str
     created_at: datetime
     start_at: datetime

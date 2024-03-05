@@ -6,6 +6,7 @@ from src.game.repository import GameRepository
 from src.game.models import GameModel
 
 from .repository import QuestionRepository
+from .models import QuestionModel
 from . import schemas
 
 
@@ -15,7 +16,7 @@ class ListQuestionUseCase:
         self._game_id = game_id
 
     async def execute(self):
-        return await self._repository.fetch(query.eq(GameModel.id, ObjectId(self._game_id)))
+        return {"data": await self._repository.fetch(query.eq(QuestionModel.game.id_, ObjectId(self._game_id)))}
 
 
 class CreateQuestionUseCase:
