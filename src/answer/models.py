@@ -26,7 +26,6 @@ class QuestionModelEmbedded(EmbeddedModel):
 
 class AnswerModel(Model):
     user_id: int
-    name: str
     created_at: datetime
     choice: ChoiceModelEmbedded
     question: QuestionModelEmbedded
