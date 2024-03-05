@@ -22,7 +22,7 @@ async def list_game(
 
 
 
-@router.post("/game", response_model=schemas.Game)
+@router.post("/", response_model=schemas.Game)
 async def crete_game(
     context: DbConnectionHandler = Depends(dependencies.get_database_connection),
     payload: schemas.Game = Body(...)
