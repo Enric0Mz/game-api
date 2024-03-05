@@ -16,8 +16,8 @@ class ListQuestionUseCase:
         self._game_id = game_id
 
     async def execute(self):
-        return {"data": await self._repository.fetch(query.eq(QuestionModel.game.id_, ObjectId(self._game_id)))}
-
+        result = await self._repository.fetch(query.eq(QuestionModel.game.id_, ObjectId(self._game_id)))
+        return {"data": result}
 
 class CreateQuestionUseCase:
     def __init__(self, context: DbConnectionHandler, payload: schemas.Question, game_id: int) -> None:

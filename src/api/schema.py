@@ -13,6 +13,7 @@ class Schema(BaseModel):
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
         alias_generator = to_camel
+        from_attributes = True
 
 
 class PyObjectId(ObjectId):

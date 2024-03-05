@@ -8,17 +8,19 @@ from src.question import schemas
 
 class QuestionRepository(Repository):
     def to_dto(self, obj: QuestionModel) -> schemas.ExtendedQuestion:
+        print(obj)
         return schemas.ExtendedQuestion.model_validate(
             {
                 "name": obj.name,
                 "choices": [choice for choice in obj.choices],
                 "question_type": obj.question_type,
                 "game": obj.game,
-                "poin_value": obj.point_value
+                "point_value": obj.point_value
             }
         )
     
     async def fetch(self, clause: QueryExpression):
+        print(clause)
         result = await self.context.acquire_session().find(QuestionModel, clause)
         return [self.to_dto(obj) for obj in result]
 
