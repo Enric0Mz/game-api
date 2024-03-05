@@ -20,7 +20,7 @@ class ListGameUseCase:
                 query.gte(GameModel.finish_at, curdate)
             )
         )
-        return result
+        return {"data": result}
 
 
 class CreateGameUseCase:

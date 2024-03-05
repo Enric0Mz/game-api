@@ -4,6 +4,7 @@ from fastapi import Body
 
 from src.database.connection import DbConnectionHandler
 from src.api import dependencies
+from src.common.result import ListResult
 
 from . import domain
 from . import schemas
@@ -12,7 +13,7 @@ from . import schemas
 router = APIRouter()
 
 
-@router.get("/", response_model=list[schemas.ExtendedGame])
+@router.get("/", response_model=ListResult[schemas.ExtendedGame])
 async def list_game(
     context: DbConnectionHandler = Depends(
         dependencies.get_database_connection)
