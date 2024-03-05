@@ -9,6 +9,15 @@ from .repository import QuestionRepository
 from . import schemas
 
 
+class ListQuestionUseCase:
+    def __init__(self, context: DbConnectionHandler, game_id: int) -> None:
+        self._repository = QuestionRepository(context)
+        self._game_id = game_id
+
+    async def execute(self):
+        return await self._repository.fetch(query.eq(GameModel.id, ObjectId(self._game_id)))
+
+
 class CreateQuestionUseCase:
     def __init__(self, context: DbConnectionHandler, payload: schemas.Question, game_id: int) -> None:
         self._repository = QuestionRepository(context)
