@@ -8,7 +8,6 @@ from src.question import schemas
 
 class QuestionRepository(Repository):
     def to_dto(self, obj: QuestionModel) -> schemas.ExtendedQuestion:
-        print(obj)
         return schemas.ExtendedQuestion.model_validate(
             {
                 "name": obj.name,
@@ -20,10 +19,14 @@ class QuestionRepository(Repository):
         )
     
     async def fetch(self, clause: QueryExpression):
-        print(clause)
         result = await self.context.acquire_session().find(QuestionModel, clause)
         return [self.to_dto(obj) for obj in result]
+    
+    async def get(self, clause: QueryExpression):
+        result = await self.context.acquire_session().find_one(QuestionModel, clause)
+        if first := result:
+            return self.to_dto(first)
+        raise "NOT FOUND ERROR" #TODO add default exception
 
     async def create(self, payload: schemas.ExtendedQuestion):
         await self.context.acquire_session().save(QuestionModel(**payload.model_dump()))
-        
