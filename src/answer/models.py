@@ -5,8 +5,7 @@ from odmantic import EmbeddedModel
 from odmantic import Index
 from odmantic import ObjectId
 
-from src.question.models import ChoiceModel
-from src.question_type.models import QuestyonTypeModel
+from src.question.models import ChoiceModel, QuestyonTypeModelEmbedded
 
 
 class ChoiceModelEmbedded(EmbeddedModel):
@@ -18,7 +17,7 @@ class ChoiceModelEmbedded(EmbeddedModel):
 class QuestionModelEmbedded(EmbeddedModel):
     id: ObjectId
     question: str
-    question_type: QuestyonTypeModel
+    question_type: QuestyonTypeModelEmbedded
     choices: list[ChoiceModel]
 
 
@@ -27,8 +26,3 @@ class AnswerModel(Model): #TODO add user later
     created_at: datetime
     choice: ChoiceModelEmbedded
     question: QuestionModelEmbedded
-
-    class Config:
-        @staticmethod
-        def indexes():
-            yield Index(AnswerModel.user_id)

@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from . import game
 from . import question
+from . import answer
 
 
 router = APIRouter(prefix="/api")
@@ -14,3 +15,4 @@ def health():
 
 router.include_router(game.router, prefix="/game", tags=["Game"])
 router.include_router(question.router, prefix="/question", tags=["Question"])
+router.include_router(answer.router, prefix="/answer", tags=["Answer"])
