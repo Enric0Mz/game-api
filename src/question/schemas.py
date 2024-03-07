@@ -13,14 +13,14 @@ class Choice(Schema):
     position: int
 
 
-class ExtendedChoice(Schema):
-    id_: ObjectId | None = None
+class ExtendedChoice(Choice):
+    id_: ObjectId | None = None # None included for creation use case
 
 
 class Question(Schema):
-    id_: ObjectId | None = None
+    id_: ObjectId | None = None # None included for creation use case
     name: str
-    choices: list[Choice]
+    choices: list[ExtendedChoice]
     question_type: QuestionType
     point_value: int
 

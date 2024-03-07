@@ -47,12 +47,11 @@ class CreateQuestionUseCase:
             query.eq(GameModel.id, ObjectId(self._game_id))
         )
 
-        print(self._payload.question_type)
-
         question_type = QuestionType(
             name=self._payload.question_type,
             point_multiplier=POINT_MULTIPLIERS.get(self._payload.question_type, 1),
         )
+
         question_type_payload = {
             "name": question_type.name.value,
             "point_multiplier": question_type.point_multiplier
