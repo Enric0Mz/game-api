@@ -1,17 +1,17 @@
 import random
 
-from odmantic import query
-from odmantic import ObjectId
-
-from src.database.connection import DbConnectionHandler
-from src.game.repository import GameRepository
-from src.game.models import GameModel
-from src.question_type.schemas import QuestionType, POINT_MULTIPLIERS, Difficulty
+from odmantic import ObjectId, query
 from pydantic import ValidationError
 
-from .repository import QuestionRepository
-from .models import QuestionModel
+from src.database.connection import DbConnectionHandler
+from src.game.models import GameModel
+from src.game.repository import GameRepository
+from src.question_type.schemas import (POINT_MULTIPLIERS, Difficulty,
+                                       QuestionType)
+
 from . import schemas
+from .models import QuestionModel
+from .repository import QuestionRepository
 
 
 class ListQuestionUseCase:
@@ -20,9 +20,11 @@ class ListQuestionUseCase:
         self._game_id = game_id
 
     async def execute(self):
-        result = await self._repository.fetch(query.eq(QuestionModel.game.id_, ObjectId(self._game_id)))
+        result = await self._repository.fetch(
+            query.eq(QuestionModel.game.id_, ObjectId(self._game_id))
+        )
         return {"data": result}
-    
+
 
 class GetRandomQuestionUseCase:
     def __init__(self, context: DbConnectionHandler, game_id: int) -> None:
@@ -30,13 +32,17 @@ class GetRandomQuestionUseCase:
         self._game_id = game_id
 
     async def execute(self):
-        questions = await self._repository.fetch(query.eq(QuestionModel.game.id_, ObjectId(self._game_id)))
+        questions = await self._repository.fetch(
+            query.eq(QuestionModel.game.id_, ObjectId(self._game_id))
+        )
 
         return random.choice(questions)
 
 
 class CreateQuestionUseCase:
-    def __init__(self, context: DbConnectionHandler, payload: schemas.Question, game_id: int) -> None:
+    def __init__(
+        self, context: DbConnectionHandler, payload: schemas.Question, game_id: int
+    ) -> None:
         self._repository = QuestionRepository(context)
         self._game_repository = GameRepository(context)
         self._payload = payload
@@ -54,7 +60,7 @@ class CreateQuestionUseCase:
 
         question_type_payload = {
             "name": question_type.name.value,
-            "point_multiplier": question_type.point_multiplier
+            "point_multiplier": question_type.point_multiplier,
         }
 
         return await self._repository.create(
@@ -63,6 +69,6 @@ class CreateQuestionUseCase:
                 question_type=question_type_payload,
                 choices=self._payload.choices,
                 game=game,
-                point_value=self._payload.point_value
+                point_value=self._payload.point_value,
             )
         )

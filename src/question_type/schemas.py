@@ -2,6 +2,7 @@ from enum import Enum
 
 from src.api.schema import Schema
 
+
 class Difficulty(str, Enum):
     VERY_EASY = "very_easy"
     EASY = "easy"

@@ -2,8 +2,8 @@ from odmantic.query import QueryExpression
 
 from src.database.repository import Repository
 
-from .models import QuestyonTypeModel 
 from . import schemas
+from .models import QuestyonTypeModel
 
 
 class QuestionTypeRepository(Repository):
@@ -12,18 +12,20 @@ class QuestionTypeRepository(Repository):
             {
                 "id": obj.id,
                 "difficulty": obj.difficulty,
-                "point_multiplier": obj.point_multiplier
+                "point_multiplier": obj.point_multiplier,
             }
         )
-    
+
     async def get(self, clause: QueryExpression):
         result = self.context.acquire_session().find_one(QuestyonTypeModel, clause)
         if first := result:
             return self.to_dto(result)
-        raise "NOT FOUND ERROR" #Add proper error handler
+        raise "NOT FOUND ERROR"  # Add proper error handler
 
     async def create(self, payload: schemas.QuestyonType):
-        result = self.context.acquire_session().save(QuestyonTypeModel(**payload.model_dump_json()))
+        result = self.context.acquire_session().save(
+            QuestyonTypeModel(**payload.model_dump_json())
+        )
         return self.to_dto(result)
 
     async def fetch(self, clause: QueryExpression):

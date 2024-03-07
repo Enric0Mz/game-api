@@ -1,8 +1,6 @@
 from datetime import datetime
 
-from odmantic import ObjectId
-from odmantic import Model
-from odmantic import EmbeddedModel
+from odmantic import EmbeddedModel, Model, ObjectId
 
 from src.question_type.schemas import Difficulty
 

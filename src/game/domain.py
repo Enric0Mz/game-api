@@ -1,11 +1,12 @@
 from datetime import datetime
+
 from odmantic import query
 
 from src.database.connection import DbConnectionHandler
 from src.game.repository import GameRepository
 
-from .models import GameModel
 from . import schemas
+from .models import GameModel
 
 
 class ListGameUseCase:
@@ -17,7 +18,7 @@ class ListGameUseCase:
         result = await self._repository.fetch(
             query.and_(
                 query.lte(GameModel.start_at, curdate),
-                query.gte(GameModel.finish_at, curdate)
+                query.gte(GameModel.finish_at, curdate),
             )
         )
         return {"data": result}

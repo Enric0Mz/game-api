@@ -1,9 +1,6 @@
 from fastapi import APIRouter
 
-from . import game
-from . import question
-from . import answer
-
+from . import answer, game, question
 
 router = APIRouter(prefix="/api")
 

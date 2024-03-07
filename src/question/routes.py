@@ -1,15 +1,10 @@
-from fastapi import APIRouter
-from fastapi import Path
-from fastapi import Depends
-from fastapi import Body
+from fastapi import APIRouter, Body, Depends, Path
 
 from src.api import dependencies
-from src.database.connection import DbConnectionHandler
 from src.common.result import ListResult
+from src.database.connection import DbConnectionHandler
 
-from . import domain
-from . import schemas
-
+from . import domain, schemas
 
 router = APIRouter()
 
@@ -17,7 +12,7 @@ router = APIRouter()
 @router.get("/{game_id}", response_model=ListResult[schemas.Question])
 async def list_question(
     context: DbConnectionHandler = Depends(dependencies.get_database_connection),
-    game_id: str = Path(...)
+    game_id: str = Path(...),
 ):
     return await domain.ListQuestionUseCase(context, game_id).execute()
 
@@ -25,7 +20,7 @@ async def list_question(
 @router.get("/random/{game_id}", response_model=schemas.Question)
 async def get_random_question(
     context: DbConnectionHandler = Depends(dependencies.get_database_connection),
-    game_id: str = Path(...)
+    game_id: str = Path(...),
 ):
     return await domain.GetRandomQuestionUseCase(context, game_id).execute()
 
@@ -33,7 +28,7 @@ async def get_random_question(
 @router.post("/{game_id}", status_code=204)
 async def create_question(
     context: DbConnectionHandler = Depends(dependencies.get_database_connection),
-    payload: schemas.QuestionPayload = Body(...), 
-    game_id: str = Path(...)
+    payload: schemas.QuestionPayload = Body(...),
+    game_id: str = Path(...),
 ):
     return await domain.CreateQuestionUseCase(context, payload, game_id).execute()

@@ -1,9 +1,6 @@
 from datetime import datetime
 
-from odmantic import Model
-from odmantic import EmbeddedModel
-from odmantic import Index
-from odmantic import ObjectId
+from odmantic import EmbeddedModel, Index, Model, ObjectId
 
 from src.question.models import ChoiceModel, QuestyonTypeModelEmbedded
 
@@ -21,8 +18,7 @@ class QuestionModelEmbedded(EmbeddedModel):
     point_value: int
 
 
-
-class AnswerModel(Model): #TODO add user later
+class AnswerModel(Model):  # TODO add user later
     created_at: datetime
     choice: ChoiceModelEmbedded
     question: QuestionModelEmbedded

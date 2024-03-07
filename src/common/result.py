@@ -1,7 +1,7 @@
 from typing import Generic, Optional, TypeVar
 
-from pydantic import Field
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
 from src.api.schema import Schema
 
 from .page import Details

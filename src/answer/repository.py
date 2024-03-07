@@ -13,12 +13,12 @@ class AnswerRepository(Repository):
                 "id": obj.id,
                 "created_at": obj.created_at,
                 "choice": obj.choice,
-                "question": obj.question
+                "question": obj.question,
             }
         )
 
-
-
     async def create(self, payload: schemas.Answer):
-        obj = await self.context.acquire_session().save(AnswerModel(**payload.model_dump()))
+        obj = await self.context.acquire_session().save(
+            AnswerModel(**payload.model_dump())
+        )
         return self.to_dto(obj)

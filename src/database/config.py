@@ -1,6 +1,6 @@
-from .connection import DbConnectionHandler
-
 from src.game.models import GameModel
+
+from .connection import DbConnectionHandler
 
 engine = DbConnectionHandler()
 

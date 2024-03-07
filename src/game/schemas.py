@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from odmantic import ObjectId
 
 from src.api.schema import Schema
@@ -15,6 +16,4 @@ class CreateGame(Game):
 
 
 class ExtendedGame(CreateGame):
-    id_: ObjectId 
-
-
+    id_: ObjectId

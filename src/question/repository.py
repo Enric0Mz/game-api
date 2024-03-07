@@ -1,9 +1,8 @@
 from odmantic.query import QueryExpression
 
 from src.database.repository import Repository
-
-from src.question.models import QuestionModel
 from src.question import schemas
+from src.question.models import QuestionModel
 
 
 class QuestionRepository(Repository):
@@ -15,14 +14,14 @@ class QuestionRepository(Repository):
                 "choices": [choice for choice in obj.choices],
                 "question_type": obj.question_type,
                 "game": obj.game,
-                "point_value": obj.point_value
+                "point_value": obj.point_value,
             }
         )
-    
+
     async def fetch(self, clause: QueryExpression):
         result = await self.context.acquire_session().find(QuestionModel, clause)
         return [self.to_dto(obj) for obj in result]
-    
+
     async def get(self, clause: QueryExpression):
         result = await self.context.acquire_session().find_one(QuestionModel, clause)
         if first := result:
