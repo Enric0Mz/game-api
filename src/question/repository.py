@@ -10,6 +10,7 @@ class QuestionRepository(Repository):
     def to_dto(self, obj: QuestionModel) -> schemas.ExtendedQuestion:
         return schemas.ExtendedQuestion.model_validate(
             {
+                "id_": obj.id,
                 "name": obj.name,
                 "choices": [choice for choice in obj.choices],
                 "question_type": obj.question_type,
@@ -29,4 +30,5 @@ class QuestionRepository(Repository):
         raise "NOT FOUND ERROR" #TODO add default exception
 
     async def create(self, payload: schemas.ExtendedQuestion):
+        print("AQUI")
         await self.context.acquire_session().save(QuestionModel(**payload.model_dump()))

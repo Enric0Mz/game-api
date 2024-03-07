@@ -33,7 +33,7 @@ async def get_random_question(
 @router.post("/{game_id}", status_code=204)
 async def create_question(
     context: DbConnectionHandler = Depends(dependencies.get_database_connection),
-    payload: schemas.Question = Body(...), 
+    payload: schemas.QuestionPayload = Body(...), 
     game_id: str = Path(...)
 ):
     return await domain.CreateQuestionUseCase(context, payload, game_id).execute()

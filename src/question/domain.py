@@ -6,6 +6,8 @@ from odmantic import ObjectId
 from src.database.connection import DbConnectionHandler
 from src.game.repository import GameRepository
 from src.game.models import GameModel
+from src.question_type.schemas import QuestionType, POINT_MULTIPLIERS, Difficulty
+from pydantic import ValidationError
 
 from .repository import QuestionRepository
 from .models import QuestionModel
@@ -44,12 +46,25 @@ class CreateQuestionUseCase:
         game = await self._game_repository.get(
             query.eq(GameModel.id, ObjectId(self._game_id))
         )
-        return await self._repository.create(
-            schemas.ExtendedQuestion(
+
+        print(self._payload.question_type)
+
+        question_type = QuestionType(
+            name=self._payload.question_type,
+            point_multiplier=POINT_MULTIPLIERS.get(self._payload.question_type, 1),
+        )
+        question_type_payload = {
+            "name": question_type.name.value,
+            "point_multiplier": question_type.point_multiplier
+        }
+        
+        result = schemas.ExtendedQuestion(
                 name=self._payload.name,
-                question_type=self._payload.question_type,
+                question_type=question_type_payload,
                 choices=self._payload.choices,
                 game=game,
                 point_value=self._payload.point_value
             )
+        return await self._repository.create(
+            result
         )

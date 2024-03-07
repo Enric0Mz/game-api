@@ -4,6 +4,8 @@ from odmantic import ObjectId
 from odmantic import Model
 from odmantic import EmbeddedModel
 
+from src.question_type.schemas import Difficulty
+
 
 class ChoiceModel(Model):
     name: str
@@ -12,7 +14,7 @@ class ChoiceModel(Model):
 
 
 class QuestyonTypeModelEmbedded(EmbeddedModel):
-    difficulty: str
+    name: Difficulty
     point_multiplier: int
 
 
