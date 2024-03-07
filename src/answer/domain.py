@@ -1,5 +1,6 @@
 from odmantic import query
 from datetime import datetime
+from odmantic import ObjectId
 
 from src.database.connection import DbConnectionHandler
 from src.question.repository import QuestionRepository
@@ -17,16 +18,14 @@ class CreateAnswerUseCase:
         self._choice_id = choice_id
 
     async def execute(self):
-        question = await self._question_repository.get(query.eq(QuestionModel.id, self._question_id))
+        question = await self._question_repository.get(query.eq(QuestionModel.id, ObjectId(self._question_id)))
         choice = None
         for obj in question.choices:
-            if self._choice_id in obj:
+            if ObjectId(self._choice_id) == ObjectId(obj.id_):
                 choice = obj
 
-        return await self._repository.create(
-            schemas.Answer(
+        return await self._repository.create(schemas.Answer(
                 created_at=datetime.utcnow(),
                 choice=choice,
-                questio=question
-            )
-        )
+                question=question
+            ))

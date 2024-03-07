@@ -15,10 +15,10 @@ class ChoiceModelEmbedded(EmbeddedModel):
 
 
 class QuestionModelEmbedded(EmbeddedModel):
-    id: ObjectId
-    question: str
+    name: str
     question_type: QuestyonTypeModelEmbedded
     choices: list[ChoiceModel]
+    point_value: int
 
 
 

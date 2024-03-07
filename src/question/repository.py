@@ -27,8 +27,6 @@ class QuestionRepository(Repository):
         result = await self.context.acquire_session().find_one(QuestionModel, clause)
         if first := result:
             return self.to_dto(first)
-        raise "NOT FOUND ERROR" #TODO add default exception
 
     async def create(self, payload: schemas.ExtendedQuestion):
-        print("AQUI")
         await self.context.acquire_session().save(QuestionModel(**payload.model_dump()))

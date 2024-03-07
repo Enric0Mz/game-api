@@ -56,14 +56,13 @@ class CreateQuestionUseCase:
             "name": question_type.name.value,
             "point_multiplier": question_type.point_multiplier
         }
-        
-        result = schemas.ExtendedQuestion(
+
+        return await self._repository.create(
+            schemas.ExtendedQuestion(
                 name=self._payload.name,
                 question_type=question_type_payload,
                 choices=self._payload.choices,
                 game=game,
                 point_value=self._payload.point_value
             )
-        return await self._repository.create(
-            result
         )

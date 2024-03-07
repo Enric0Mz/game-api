@@ -18,4 +18,4 @@ async def create_answer(
     question_id: str = Path(...),
     choice_id: str = Query(...)
 ):
-    await domain.CreateAnswerUseCase(context, question_id, choice_id)
+    await domain.CreateAnswerUseCase(context, question_id, choice_id).execute()
