@@ -17,7 +17,7 @@ class PointRepository(Repository):
         )
     
     async def create(self, payload: schemas.Point) -> None:
-        await self.context.acquire_session().save(**payload)
+        await self.context.acquire_session().save(PointModel(**payload.model_dump()))
 
     async def get(self, clause: QueryExpression) -> schemas.Point:
         result = self.context.acquire_session().find_one(PointModel, clause)

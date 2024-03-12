@@ -5,6 +5,8 @@ from odmantic import ObjectId, query
 from src.database.connection import DbConnectionHandler
 from src.question.models import QuestionModel
 from src.question.repository import QuestionRepository
+from src.points.repository import PointRepository
+from src.points.schemas import Point
 
 from . import schemas
 from .repository import AnswerRepository
@@ -16,6 +18,7 @@ class CreateAnswerUseCase:
     ) -> None:
         self._repository = AnswerRepository(context)
         self._question_repository = QuestionRepository(context)
+        self._point_repository = PointRepository(context)
         self._question_id = question_id
         self._choice_id = choice_id
 
@@ -27,9 +30,28 @@ class CreateAnswerUseCase:
         for obj in question.choices:
             if ObjectId(self._choice_id) == ObjectId(obj.id_):
                 choice = obj
+            if obj.correct:
+                correct = obj
+                break
 
-        return await self._repository.create(
+        print(choice)
+        print(correct)
+
+        answer = await self._repository.create(
             schemas.Answer(
                 created_at=datetime.utcnow(), choice=choice, question=question
             )
         )
+    
+        await self._process_points(question, choice, correct, answer)
+
+    async def _process_points(self, question: schemas.Question, choice: schemas.Choice, correct: schemas.Choice, answer: schemas.Answer) -> None:
+        if choice == correct:
+            points_total = question.point_value * question.question_type.point_multiplier
+            await self._point_repository.create(
+                Point(
+                    created_at=datetime.utcnow(),
+                    total=points_total,
+                    answer=answer
+                )
+            )
