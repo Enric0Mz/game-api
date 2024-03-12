@@ -15,7 +15,3 @@ class PointModel(Model): # TODO add user later
     created_at: datetime
     total: int
     answer: AnswerModelEmbedded
-
-
-class PointsTotalModel(Model):
-    points: list[PointModel]
