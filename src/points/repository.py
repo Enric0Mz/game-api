@@ -15,6 +15,11 @@ class PointRepository(Repository):
                 "answer": obj.answer
             }
         )
+
+    async def fetch(self, clause: QueryExpression):
+        result = await self.context.acquire_session().find(PointModel, clause)
+
+        return [self.to_dto(obj) for obj in result]
     
     async def create(self, payload: schemas.Point) -> None:
         await self.context.acquire_session().save(PointModel(**payload.model_dump()))
