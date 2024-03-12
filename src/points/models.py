@@ -11,11 +11,11 @@ class AnswerModelEmbedded(EmbeddedModel):  # TODO add user later
     question: QuestionModelEmbedded
 
 
-class Point(Model): # TODO add user later
+class PointModel(Model): # TODO add user later
     created_at: datetime
     total: int
     answer: AnswerModelEmbedded
 
 
-class PointsTotal(Model):
-    points: list[Point]
+class PointsTotalModel(Model):
+    points: list[PointModel]
