@@ -2,7 +2,7 @@
 name = "game-api"
 version = "0.1.0"
 description = ""
-authors = ["enrico <enrico.marquez@duko.com.br>"]
+authors = ["enrico <enricovmarquezz@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -13,6 +13,9 @@ yarl = "^1.9.4"
 lazy-fields = "^1.0.1"
 env-star = "^2.3.0"
 uvicorn = "^0.27.1"
+pydantic = "^2.6.1"
+humps = "^0.2.2"
+python-multipart = "^0.0.9"
 
 
 [build-system]
