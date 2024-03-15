@@ -12,7 +12,11 @@ class PointRepository(Repository):
             {
                 "created_at": obj.created_at,
                 "total": obj.total,
-                "answer": obj.answer
+                "answer": {
+                    "created_at": obj.answer.created_at,
+                    "choice": obj.answer.choice,
+                    "question_name": obj.answer.question.name
+                }
             }
         )
 

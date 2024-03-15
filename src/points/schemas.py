@@ -15,14 +15,8 @@ class SimpleAnswer(Schema):
 class Point(Schema):
     created_at: datetime
     total: int
-    answer: Answer
-
-
-class PointPayload(Schema):
-    created_at: datetime
-    total: int
     answer: SimpleAnswer
 
 
 class PointsTotal(Schema):
-    points: list[PointPayload]
+    points: list[Point]
