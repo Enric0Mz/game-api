@@ -15,5 +15,5 @@ class ListUserPointsUseCase:
 
 
     async def execute(self):
-        return {"data": await self._repository.fetch(None)} # TODO add user query later
+        return {"data": await self._repository.fetch()} # TODO add user query later
     

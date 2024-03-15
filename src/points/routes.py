@@ -1,4 +1,4 @@
-from fastapi import ApiRouter
+from fastapi import APIRouter
 from fastapi import Depends
 
 from src.database.connection import DbConnectionHandler
@@ -10,7 +10,7 @@ from . import schemas
 from . import domain
 
 
-router = ApiRouter()
+router = APIRouter()
 
 
 @router.get("/", response_model=ListResult[schemas.Point])
