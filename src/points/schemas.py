@@ -15,6 +15,13 @@ class SimpleAnswer(Schema):
 class Point(Schema):
     created_at: datetime
     total: int
+
+
+class ExtendedPoint(Point):
+    answer: Answer
+
+
+class PointPayload(Point):
     answer: SimpleAnswer
 
 

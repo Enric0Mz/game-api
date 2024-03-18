@@ -13,7 +13,7 @@ from . import domain
 router = APIRouter()
 
 
-@router.get("/", response_model=ListResult[schemas.Point])
+@router.get("/", response_model=ListResult[schemas.PointPayload])
 async def list_user_points(
     context: DbConnectionHandler = Depends(dependencies.get_database_connection),
     params: PaginationParams = Depends()

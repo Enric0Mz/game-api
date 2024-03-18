@@ -6,7 +6,7 @@ from src.database.connection import DbConnectionHandler
 from src.question.models import QuestionModel
 from src.question.repository import QuestionRepository
 from src.points.repository import PointRepository
-from src.points.schemas import Point
+from src.points.schemas import ExtendedPoint
 
 from . import schemas
 from .repository import AnswerRepository
@@ -34,9 +34,6 @@ class CreateAnswerUseCase:
                 correct = obj
                 break
 
-        print(choice)
-        print(correct)
-
         answer = await self._repository.create(
             schemas.Answer(
                 created_at=datetime.utcnow(), choice=choice, question=question
@@ -49,7 +46,7 @@ class CreateAnswerUseCase:
         if choice == correct:
             points_total = question.point_value * question.question_type.point_multiplier
             await self._point_repository.create(
-                Point(
+                ExtendedPoint(
                     created_at=datetime.utcnow(),
                     total=points_total,
                     answer=answer

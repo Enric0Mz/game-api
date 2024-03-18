@@ -7,8 +7,8 @@ from . import schemas
 
 
 class PointRepository(Repository):
-    def to_dto(self, obj: PointModel) -> schemas.Point:
-        return schemas.Point.model_validate(
+    def to_dto(self, obj: PointModel) -> schemas.PointPayload:
+        return schemas.PointPayload.model_validate(
             {
                 "created_at": obj.created_at,
                 "total": obj.total,
@@ -29,7 +29,7 @@ class PointRepository(Repository):
     async def create(self, payload: schemas.Point) -> None:
         await self.context.acquire_session().save(PointModel(**payload.model_dump()))
 
-    async def get(self, clause: QueryExpression) -> schemas.Point:
+    async def get(self, clause: QueryExpression) -> schemas.PointPayload:
         result = self.context.acquire_session().find_one(PointModel, clause)
 
         if first := result:
