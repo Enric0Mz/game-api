@@ -52,3 +52,11 @@ class CreateAnswerUseCase:
                     answer=answer
                 )
             )
+        else:
+            await self._point_repository.create(
+                ExtendedPoint(
+                    created_at=datetime.utcnow(),
+                    total=0,
+                    answer=answer
+                )
+            )
