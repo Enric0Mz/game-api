@@ -3,7 +3,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from odmantic import AIOEngine
 from yarl import URL
 
-from src.core import settings   
+from src.core import settings
 
 
 class DbConnectionHandler:
