@@ -1,7 +1,7 @@
-from odmantic import Model
+from odmantic import Model, Field
 
 
 class UserModel(Model):
-    nickname: str
-    email: str
+    nickname: str = Field(unique=True)
+    email: str = Field(unique=True)
     password: str

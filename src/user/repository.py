@@ -1,5 +1,7 @@
 from odmantic.query import QueryExpression
+from odmantic.exceptions import DuplicateKeyError
 
+from src.api import exc
 from src.database.repository import Repository
 
 from .models import UserModel
@@ -17,7 +19,10 @@ class UserRepository(Repository):
         )
     
     async def create(self, payload: schemas.User) -> None:
-        await self.context.acquire_session().save(UserModel(**payload.model_dump()))
+        try:
+            await self.context.acquire_session().save(UserModel(**payload.model_dump()))
+        except DuplicateKeyError as e:
+            raise exc.already_exists_exception(e, payload)
 
     async def get(self, clause: QueryExpression) -> schemas.User:
         result = self.context.acquire_session().find_one(UserModel, clause)
