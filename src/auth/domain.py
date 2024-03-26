@@ -12,6 +12,7 @@ from src.user.models import UserModel
 from src.user.repository import UserRepository
 from src.user.schemas import User
 
+from .models import TokenModel
 from . import schemas
 from .repository import AuthRepository
 
@@ -31,7 +32,7 @@ class UserAuthenticateUseCase:
             query.eq(UserModel.email, self._payload.username)
         )
         self._validate_user(user)
-        access_token, refresh_token = self._create_tokens(user)
+        access_token, refresh_token = _create_tokens(user)
         await self._repository.update(
             schemas.Token(
                 user_id=user.id,
@@ -52,7 +53,29 @@ class UserAuthenticateUseCase:
         if not verify_password(self._payload.password, user.password):
             return exc.incorrect_password_exception()
 
-    def _create_tokens(self, user: User):
+class GetRefreshTokenUseCase:
+    def __init__(self, context: DbConnectionHandler, access_token: str) -> None:
+        self._repository = AuthRepository(context)
+        self._user_repository = UserRepository(context)
+        self._access_token = access_token
+
+    async def execute(self):
+        exists = await self._repository.get(
+            query.eq(TokenModel.access_token, self._access_token)
+        )
+        if not exists:
+            return exc.not_found_exception("token", "Token") # Change to expire or invalid token exc
+    
+        user = await self._user_repository.get(query.eq(UserModel.id, exists.user_id))
+        access_token, refresh_token = _create_tokens(user)
+        return {
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "token_type": "bearer",
+        }
+        
+
+def _create_tokens(self, user: User):
         access_token = create_token(
             {"sub": user.email}, timedelta(minutes=self._access_expires)
         )
