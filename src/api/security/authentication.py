@@ -31,23 +31,23 @@ class AuthValidator(HTTPBearer):
             return exc.invalid_token_exception("User not authenticated")
         if not credentials.scheme == "Bearer":
             return exc.invalid_token_exception("Invalid token type")
-        token_payload = self.verify_jwt(credentials.credentials)
+        token_payload = await self.verify_jwt(credentials.credentials)
         user = await self._user_repository.get(query.eq(UserModel.id, token_payload.user_id))
         if not user:
             return exc.invalid_token_exception("Invalid or expired token")
         return user
 
-    def verify_jwt(self, token: str):
+    async def verify_jwt(self, token: str):
         try:
             decoded = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         except:
             return exc.invalid_token_exception("Invalid or expired Token")
-        exists = self._repository.get(
-            query.eq(TokenModel.access_token, decoded))
+        exists = await self._repository.get(
+            query.eq(TokenModel.access_token, token))
         if not exists:
             return exc.invalid_token_exception("Invalid or Expired Token")
         return exists
 
 
 async def protected_route(user=Depends(AuthValidator(get_database_connection(Request)))):
-    return {"message": "This route is protected"}
+    return user

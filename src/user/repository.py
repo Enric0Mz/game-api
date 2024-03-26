@@ -10,7 +10,7 @@ from .models import UserModel
 
 class UserRepository(Repository):
     def to_dto(self, obj: UserModel) -> schemas.User:
-        return schemas.User.model_validate(
+        return schemas.ExtendedUser.model_validate(
             {
                 "id": obj.id,
                 "nickname": obj.nickname,

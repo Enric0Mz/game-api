@@ -62,7 +62,6 @@ class GetRefreshTokenUseCase:
         self._user = user
 
     async def execute(self):
-        print(self._user)
         access_token, refresh_token = _create_tokens(self._user)
         await self._repository.update(
             schemas.Token(
