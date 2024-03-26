@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from . import answer, game, question, points, user
+from . import answer, game, question, points, user, auth
 
 router = APIRouter(prefix="/api")
 
@@ -9,7 +9,7 @@ router = APIRouter(prefix="/api")
 def health():
     return {"status": "ok"}
 
-
+router.include_router(auth.router, prefix="/auth", tags=["Auth"])
 router.include_router(user.router, prefix="/user", tags=["User"])
 router.include_router(game.router, prefix="/game", tags=["Game"])
 router.include_router(question.router, prefix="/question", tags=["Question"])
