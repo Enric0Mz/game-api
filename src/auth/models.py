@@ -1,8 +1,6 @@
 from datetime import datetime
 
-from odmantic import Model
-from odmantic import ObjectId
-from odmantic import Field
+from odmantic import Field, Model, ObjectId
 
 
 class TokenModel(Model):
@@ -10,4 +8,3 @@ class TokenModel(Model):
     access_token: str = Field(unique=True)
     refresh_token: str = Field(unique=True)
     created_at: datetime
-

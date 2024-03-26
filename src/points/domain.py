@@ -1,11 +1,11 @@
 from odmantic import query
 
-from src.database.connection import DbConnectionHandler
 from src.common.page import PaginationParams
+from src.database.connection import DbConnectionHandler
 
-from .repository import PointRepository
-from .models import PointModel
 from . import schemas
+from .models import PointModel
+from .repository import PointRepository
 
 
 class ListUserPointsUseCase:
@@ -13,7 +13,5 @@ class ListUserPointsUseCase:
         self._repository = PointRepository(context)
         self._params = params
 
-
     async def execute(self):
-        return {"data": await self._repository.fetch()} # TODO add user query later
-    
+        return {"data": await self._repository.fetch()}  # TODO add user query later

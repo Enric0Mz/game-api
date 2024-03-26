@@ -3,10 +3,10 @@ from datetime import datetime
 from odmantic import ObjectId, query
 
 from src.database.connection import DbConnectionHandler
-from src.question.models import QuestionModel
-from src.question.repository import QuestionRepository
 from src.points.repository import PointRepository
 from src.points.schemas import ExtendedPoint
+from src.question.models import QuestionModel
+from src.question.repository import QuestionRepository
 
 from . import schemas
 from .repository import AnswerRepository
@@ -39,24 +39,26 @@ class CreateAnswerUseCase:
                 created_at=datetime.utcnow(), choice=choice, question=question
             )
         )
-    
+
         await self._process_points(question, choice, correct, answer)
 
-    async def _process_points(self, question: schemas.Question, choice: schemas.Choice, correct: schemas.Choice, answer: schemas.Answer) -> None:
+    async def _process_points(
+        self,
+        question: schemas.Question,
+        choice: schemas.Choice,
+        correct: schemas.Choice,
+        answer: schemas.Answer,
+    ) -> None:
         if choice == correct:
-            points_total = question.point_value * question.question_type.point_multiplier
+            points_total = (
+                question.point_value * question.question_type.point_multiplier
+            )
             await self._point_repository.create(
                 ExtendedPoint(
-                    created_at=datetime.utcnow(),
-                    total=points_total,
-                    answer=answer
+                    created_at=datetime.utcnow(), total=points_total, answer=answer
                 )
             )
         else:
             await self._point_repository.create(
-                ExtendedPoint(
-                    created_at=datetime.utcnow(),
-                    total=0,
-                    answer=answer
-                )
+                ExtendedPoint(created_at=datetime.utcnow(), total=0, answer=answer)
             )

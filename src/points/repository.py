@@ -2,8 +2,8 @@ from odmantic.query import QueryExpression
 
 from src.database.repository import Repository
 
-from .models import PointModel
 from . import schemas
+from .models import PointModel
 
 
 class PointRepository(Repository):
@@ -15,17 +15,18 @@ class PointRepository(Repository):
                 "answer": {
                     "created_at": obj.answer.created_at,
                     "choice": obj.answer.choice,
-                    "question_name": obj.answer.question.name
-                }
+                    "question_name": obj.answer.question.name,
+                },
             }
         )
 
-    async def fetch(self, #clause: QueryExpression
-                    ):
+    async def fetch(
+        self,  # clause: QueryExpression
+    ):
         result = await self.context.acquire_session().find(PointModel)
 
         return [self.to_dto(obj) for obj in result]
-    
+
     async def create(self, payload: schemas.Point) -> None:
         await self.context.acquire_session().save(PointModel(**payload.model_dump()))
 
@@ -34,4 +35,4 @@ class PointRepository(Repository):
 
         if first := result:
             return self.to_dto(first)
-        raise "NOT FOUND ERROR" #TODO add default exception
+        raise "NOT FOUND ERROR"  # TODO add default exception

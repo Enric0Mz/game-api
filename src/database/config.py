@@ -1,7 +1,6 @@
 from src.game.models import GameModel
 from src.user.models import UserModel
 
-
 from .connection import DbConnectionHandler
 
 engine = DbConnectionHandler()

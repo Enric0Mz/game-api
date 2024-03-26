@@ -1,5 +1,5 @@
-from pydantic import EmailStr
 from odmantic import ObjectId
+from pydantic import EmailStr
 
 from src.api.schema import Schema
 

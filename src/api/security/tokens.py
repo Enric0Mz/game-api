@@ -1,11 +1,9 @@
-import jwt
-
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import Optional
 
-from src.core.settings import SECRET_KEY
-from src.core.settings import ALGORITHM
+import jwt
+
+from src.core.settings import ALGORITHM, SECRET_KEY
 
 
 def create_token(data: dict, expires_delta: timedelta) -> str:

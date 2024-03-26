@@ -1,10 +1,9 @@
-from src.database.connection import DbConnectionHandler
 from src.api.security.password import get_password_hash
+from src.database.connection import DbConnectionHandler
 
-
-from .repository import UserRepository
-from .models import UserModel
 from . import schemas
+from .models import UserModel
+from .repository import UserRepository
 
 
 class CreateUserUseCase:
@@ -17,6 +16,6 @@ class CreateUserUseCase:
             schemas.User(
                 nickname=self._payload.nickname,
                 email=self._payload.email,
-                password=get_password_hash(self._payload.password)
+                password=get_password_hash(self._payload.password),
             )
         )

@@ -1,11 +1,11 @@
-from odmantic.query import QueryExpression
 from odmantic.exceptions import DuplicateKeyError
+from odmantic.query import QueryExpression
 
 from src.api import exc
 from src.database.repository import Repository
 
-from .models import UserModel
 from . import schemas
+from .models import UserModel
 
 
 class UserRepository(Repository):
@@ -15,10 +15,10 @@ class UserRepository(Repository):
                 "id": obj.id,
                 "nickname": obj.nickname,
                 "email": obj.email,
-                "password": obj.password
+                "password": obj.password,
             }
         )
-    
+
     async def create(self, payload: schemas.User) -> None:
         try:
             await self.context.acquire_session().save(UserModel(**payload.model_dump()))

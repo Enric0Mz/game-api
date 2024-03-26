@@ -1,8 +1,7 @@
 from datetime import datetime
 
-from src.api.schema import Schema
-
 from src.answer.schemas import Answer
+from src.api.schema import Schema
 from src.question.schemas import Choice
 
 
