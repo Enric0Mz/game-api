@@ -48,11 +48,14 @@ class UserAuthenticateUseCase:
                 created_at=datetime.now(timezone.utc),
             )
         )
-        return {
-            "access_token": access_token,
-            "refresh_token": refresh_token,
-            "token_type": "bearer",
-        }
+        return schemas.TokenResponse.model_validate(
+            {
+                "access_token": access_token,
+                "expires": datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRES),
+                "refresh_token": refresh_token,
+                "type": "Bearer"
+            }
+        )
 
     def _validate_user(self, user: User):
         if not user:
@@ -91,11 +94,14 @@ class GetRefreshTokenUseCase:
                 created_at=datetime.now(timezone.utc),
             )
         )
-        return {
-            "access_token": access_token,
-            "refresh_token": refresh_token,
-            "token_type": "bearer",
-        }
+        return schemas.TokenResponse.model_validate(
+            {
+                "access_token": access_token,
+                "expires": datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRES),
+                "refresh_token": refresh_token,
+                "type": "Bearer"
+            }
+        )
 
 
 class LogOutUseCase:

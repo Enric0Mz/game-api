@@ -18,3 +18,10 @@ class ExtendedToken(Token):
 
 class TokenPayload(Schema):
     refresh_token: str
+
+
+class TokenResponse(Schema):
+    access_token: str
+    expires: datetime
+    refresh_token: str
+    type: str

@@ -22,7 +22,7 @@ async def create_user(
     await domain.CreateUserUseCase(context, payload).execute()
 
 
-@router.post("/token")
+@router.post("/token", response_model=schemas.TokenResponse)
 async def authenticate(
     context: DbConnectionHandler = Depends(
         dependencies.get_database_connection),
@@ -31,7 +31,7 @@ async def authenticate(
     return await domain.UserAuthenticateUseCase(context, payload).execute()
 
 
-@router.post("/token/refresh")
+@router.post("/token/refresh", response_model=schemas.TokenResponse)
 async def get_refresh_token(
     context: DbConnectionHandler = Depends(
         dependencies.get_database_connection),
