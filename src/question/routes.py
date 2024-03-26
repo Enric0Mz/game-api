@@ -3,10 +3,11 @@ from fastapi import APIRouter, Body, Depends, Path
 from src.api import dependencies
 from src.common.result import ListResult
 from src.database.connection import DbConnectionHandler
+from src.auth.domain import protected_route
 
 from . import domain, schemas
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(protected_route)])
 
 
 @router.get("/{game_id}", response_model=ListResult[schemas.Question])

@@ -4,10 +4,11 @@ from src.api import dependencies
 from src.common.page import PaginationParams
 from src.common.result import ListResult
 from src.database.connection import DbConnectionHandler
+from src.auth.domain import protected_route
 
 from . import domain, schemas
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(protected_route)])
 
 
 @router.get("/", response_model=ListResult[schemas.PointPayload])

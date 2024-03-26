@@ -3,7 +3,7 @@ from fastapi import Body
 from fastapi.security import OAuth2PasswordRequestForm
 
 from src.api import dependencies
-from src.api.security.authentication import protected_route
+from .domain import protected_route
 from src.database.connection import DbConnectionHandler
 from src.user.schemas import User
 
