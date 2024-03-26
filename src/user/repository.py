@@ -3,14 +3,15 @@ from odmantic.query import QueryExpression
 
 from src.api import exc
 from src.database.repository import Repository
+from src.common.user import User, ExtendedUser
 
 from . import schemas
 from .models import UserModel
 
 
 class UserRepository(Repository):
-    def to_dto(self, obj: UserModel) -> schemas.User:
-        return schemas.ExtendedUser.model_validate(
+    def to_dto(self, obj: UserModel) -> User:
+        return ExtendedUser.model_validate(
             {
                 "id": obj.id,
                 "nickname": obj.nickname,
@@ -19,13 +20,7 @@ class UserRepository(Repository):
             }
         )
 
-    async def create(self, payload: schemas.User) -> None:
-        try:
-            await self.context.acquire_session().save(UserModel(**payload.model_dump()))
-        except DuplicateKeyError as e:
-            raise exc.already_exists_exception(e, payload)
-
-    async def get(self, clause: QueryExpression) -> schemas.User:
+    async def get(self, clause: QueryExpression) -> User:
         result = await self.context.acquire_session().find_one(UserModel, clause)
 
         if first := result:
