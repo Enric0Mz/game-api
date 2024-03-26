@@ -11,7 +11,7 @@ def already_exists_exception(field: str, value: str):
 def not_found_exception(field: str, value: str):
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
-        detail=f"field {field} not found on {value}",
+        detail=f"value {value} not found on {field}",
     )
 
 

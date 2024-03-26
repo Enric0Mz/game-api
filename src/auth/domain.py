@@ -24,8 +24,6 @@ class UserAuthenticateUseCase:
         self._payload = payload
         self._repository = AuthRepository(context)
         self._user_repository = UserRepository(context)
-        self._access_expires = ACCESS_TOKEN_EXPIRES
-        self._refresh_expires = REFRESH_TOKEN_EXPIRES
 
     async def execute(self):
         user = await self._user_repository.get(
@@ -49,7 +47,7 @@ class UserAuthenticateUseCase:
 
     def _validate_user(self, user: User):
         if not user:
-            return exc.not_found_exception(self._payload.username, "User")
+            return exc.not_found_exception("email", self._payload.username)
         if not verify_password(self._payload.password, user.password):
             return exc.incorrect_password_exception()
 
@@ -75,11 +73,11 @@ class GetRefreshTokenUseCase:
         }
         
 
-def _create_tokens(self, user: User):
-        access_token = create_token(
-            {"sub": user.email}, timedelta(minutes=self._access_expires)
-        )
-        refresh_token = create_token(
-            {"sub": user.nickname}, timedelta(days=self._refresh_expires)
-        )
-        return access_token, refresh_token
+def _create_tokens(user: User):
+    access_token = create_token(
+        {"sub": user.email}, timedelta(minutes=ACCESS_TOKEN_EXPIRES)
+    )
+    refresh_token = create_token(
+        {"sub": user.nickname}, timedelta(days=REFRESH_TOKEN_EXPIRES)
+    )
+    return access_token, refresh_token
