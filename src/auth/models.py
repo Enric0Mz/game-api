@@ -5,7 +5,7 @@ from odmantic import ObjectId
 from odmantic import Field
 
 
-class Token(Model):
+class TokenModel(Model):
     user_id: ObjectId = Field(unique=True, index=True)
     token: str = Field(unique=True)
     refresh_token: str = Field(unique=True)
