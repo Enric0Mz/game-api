@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from odmantic import query
 
@@ -14,7 +14,7 @@ class ListGameUseCase:
         self._repository = GameRepository(context)
 
     async def execute(self):
-        curdate = datetime.utcnow()
+        curdate = datetime.now(timezone.utc)
         result = await self._repository.fetch(
             query.and_(
                 query.lte(GameModel.start_at, curdate),
@@ -30,7 +30,7 @@ class CreateGameUseCase:
         self._payload = payload
 
     async def execute(self):
-        curdate = datetime.utcnow()
+        curdate = datetime.now(timezone.utc)()
         return await self._repository.create(
             schemas.CreateGame(
                 subject=self._payload.subject,

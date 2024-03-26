@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import jwt
 
 from fastapi.security import OAuth2PasswordRequestForm
@@ -39,7 +39,7 @@ class UserAuthenticateUseCase:
                 user_id=user.id,
                 access_token=access_token,
                 refresh_token=refresh_token,
-                created_at=datetime.utcnow(),
+                created_at=datetime.now(timezone.utc),
             )
         )
         return {
@@ -82,7 +82,7 @@ class GetRefreshTokenUseCase:
                 user_id=self._user.id,
                 access_token=access_token,
                 refresh_token=refresh_token,
-                created_at=datetime.utcnow(),
+                created_at=datetime.now(timezone.utc),
             )
         )
         return {

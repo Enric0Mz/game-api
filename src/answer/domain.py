@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from odmantic import ObjectId, query
 
@@ -36,7 +36,7 @@ class CreateAnswerUseCase:
 
         answer = await self._repository.create(
             schemas.Answer(
-                created_at=datetime.utcnow(), choice=choice, question=question
+                created_at=datetime.now(timezone.utc), choice=choice, question=question
             )
         )
 
@@ -55,10 +55,11 @@ class CreateAnswerUseCase:
             )
             await self._point_repository.create(
                 ExtendedPoint(
-                    created_at=datetime.utcnow(), total=points_total, answer=answer
+                    created_at=datetime.now(timezone.utc)(), total=points_total, answer=answer
                 )
             )
         else:
             await self._point_repository.create(
-                ExtendedPoint(created_at=datetime.utcnow(), total=0, answer=answer)
+                ExtendedPoint(created_at=datetime.now(
+                    timezone.utc)(), total=0, answer=answer)
             )
