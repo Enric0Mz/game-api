@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import jwt
 
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm
 from odmantic import query
 
 from src.api import exc
@@ -54,6 +54,7 @@ class UserAuthenticateUseCase:
         if not verify_password(self._payload.password, user.password):
             return exc.incorrect_password_exception()
 
+
 class GetRefreshTokenUseCase:
     def __init__(self, context: DbConnectionHandler, refresh_token_payload: schemas.TokenPayload, user: User) -> None:
         self._repository = AuthRepository(context)
@@ -62,6 +63,19 @@ class GetRefreshTokenUseCase:
         self._user = user
 
     async def execute(self):
+        try:
+            decoded_token = jwt.decode(
+                self._refresh_token, SECRET_KEY, algorithms=[ALGORITHM])
+        except jwt.DecodeError:
+            return exc.invalid_token_exception("Invalid or expired refresh token")
+        if not decoded_token:
+            return exc.invalid_token_exception("Invalid or expired refresh token")
+        exists = await self._repository.get(
+            query.eq(TokenModel.refresh_token, self._refresh_token)
+        )
+        if not exists:
+            return exc.invalid_token_exception("Invalid or expired refresh token")
+
         access_token, refresh_token = _create_tokens(self._user)
         await self._repository.update(
             schemas.Token(
@@ -76,7 +90,7 @@ class GetRefreshTokenUseCase:
             "refresh_token": refresh_token,
             "token_type": "bearer",
         }
-        
+
 
 def _create_tokens(user: User):
     access_token = create_token(
