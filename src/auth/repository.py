@@ -2,6 +2,7 @@ from odmantic import query
 from odmantic.query import QueryExpression
 
 from src.database.repository import Repository
+from src.api import exc
 
 from . import schemas
 from .models import TokenModel
@@ -33,3 +34,10 @@ class AuthRepository(Repository):
             return await self.context.acquire_session().save(
                 TokenModel(**payload.model_dump())
             )
+
+    async def delete(self, clause: QueryExpression) -> None:
+        result = await self.context.acquire_session().find_one(TokenModel, clause)
+        
+        if first := result:
+            await self.context.acquire_session().delete(first)
+        return exc.not_found_exception("token", "Token")
