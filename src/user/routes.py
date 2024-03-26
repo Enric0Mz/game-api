@@ -5,12 +5,6 @@ from src.database.connection import DbConnectionHandler
 
 from . import domain, schemas
 
-router = APIRouter()
+from src.auth.domain import protected_route
 
-
-@router.post("/", status_code=204)
-async def create_user(
-    context: DbConnectionHandler = Depends(dependencies.get_database_connection),
-    payload: schemas.User = Body(...),
-):
-    await domain.CreateUserUseCase(context, payload).execute()
+router = APIRouter(dependencies=[Depends(protected_route)])

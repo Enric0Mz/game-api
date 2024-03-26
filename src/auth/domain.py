@@ -10,20 +10,20 @@ from fastapi.security import OAuth2PasswordRequestForm
 from odmantic import query
 
 from src.api import exc
-from src.api.security.password import verify_password
+from src.api.security.password import verify_password, get_password_hash
 from src.api.security.tokens import create_token
 from src.core.settings import ACCESS_TOKEN_EXPIRES, REFRESH_TOKEN_EXPIRES
 from src.core.settings import SECRET_KEY, ALGORITHM
 from src.database.connection import DbConnectionHandler
-from src.user.models import UserModel
-from src.user.repository import UserRepository
-from src.user.schemas import User
+from src.common.user import User
+
 from src.api.dependencies import get_database_connection
 
-
 from .models import TokenModel
+from .models import UserModel
 from . import schemas
 from .repository import AuthRepository
+from .repository import UserRepository
 
 
 class UserAuthenticateUseCase:
@@ -107,6 +107,21 @@ class LogOutUseCase:
         print(self._user)
         await self._repository.delete(
             query.eq(TokenModel.user_id, self._user.id)
+        )
+
+
+class CreateUserUseCase:
+    def __init__(self, context: DbConnectionHandler, payload: User) -> None:
+        self._repository = UserRepository(context)
+        self._payload = payload
+
+    async def execute(self):
+        await self._repository.create(
+            schemas.User(
+                nickname=self._payload.nickname,
+                email=self._payload.email,
+                password=get_password_hash(self._payload.password),
+            )
         )
 
 
