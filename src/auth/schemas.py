@@ -14,3 +14,7 @@ class Token(Schema):
 
 class ExtendedToken(Token):
     id: ObjectId
+
+
+class TokenPayload(Schema):
+    refresh_token: str
