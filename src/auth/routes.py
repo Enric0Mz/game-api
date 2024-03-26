@@ -3,7 +3,9 @@ from fastapi import Body
 from fastapi.security import OAuth2PasswordRequestForm
 
 from src.api import dependencies
+from src.api.security.authentication import protected_route
 from src.database.connection import DbConnectionHandler
+from src.user.schemas import User
 
 from . import domain
 from . import schemas
@@ -23,5 +25,6 @@ async def authenticate(
 async def get_refresh_token(
     context: DbConnectionHandler = Depends(dependencies.get_database_connection),
     refresh_token_payload: schemas.TokenPayload = Body(..., alias="refresh_token"),
+    user: User = Depends(protected_route)
 ):
-    return await domain.GetRefreshTokenUseCase(context, refresh_token_payload).execute()
+    return await domain.GetRefreshTokenUseCase(context, refresh_token_payload, user).execute()

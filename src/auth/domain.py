@@ -55,29 +55,18 @@ class UserAuthenticateUseCase:
             return exc.incorrect_password_exception()
 
 class GetRefreshTokenUseCase:
-    def __init__(self, context: DbConnectionHandler, refresh_token_payload: schemas.TokenPayload) -> None:
+    def __init__(self, context: DbConnectionHandler, refresh_token_payload: schemas.TokenPayload, user: User) -> None:
         self._repository = AuthRepository(context)
         self._user_repository = UserRepository(context)
         self._refresh_token = refresh_token_payload.refresh_token
+        self._user = user
 
     async def execute(self):
-        try:
-            decoded_token = jwt.decode(self._refresh_token, SECRET_KEY, algorithms=[ALGORITHM])
-        except jwt.DecodeError:
-            return exc.not_found_exception("token", "Token") # Change to expire or invalid token exc
-        if not decoded_token:
-            return exc.not_found_exception("token", "Token") # Change to expire or invalid token exc
-        exists = await self._repository.get(
-            query.eq(TokenModel.refresh_token, self._refresh_token)
-        )
-        if not exists:
-            return exc.not_found_exception("token", "Token") # Change to expire or invalid token exc
-    
-        user = await self._user_repository.get(query.eq(UserModel.id, exists.user_id))
-        access_token, refresh_token = _create_tokens(user)
+        print(self._user)
+        access_token, refresh_token = _create_tokens(self._user)
         await self._repository.update(
             schemas.Token(
-                user_id=user.id,
+                user_id=self._user.id,
                 access_token=access_token,
                 refresh_token=refresh_token,
                 created_at=datetime.utcnow(),

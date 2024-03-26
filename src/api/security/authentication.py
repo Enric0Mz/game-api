@@ -2,6 +2,7 @@ import jwt
 
 from fastapi import Request
 from fastapi import Depends
+from fastapi.requests import Request
 from fastapi.security import HTTPBearer
 from fastapi.security.http import HTTPAuthorizationCredentials
 from odmantic import query
@@ -27,7 +28,7 @@ class AuthValidator(HTTPBearer):
         credentials: HTTPAuthorizationCredentials = await super(AuthValidator, self).__call__(request)
 
         if not credentials:
-            return exc.invalid_token_exception("Invalid auth Token")
+            return exc.invalid_token_exception("User not authenticated")
         if not credentials.scheme == "Bearer":
             return exc.invalid_token_exception("Invalid token type")
         token_payload = self.verify_jwt(credentials.credentials)
@@ -41,11 +42,12 @@ class AuthValidator(HTTPBearer):
             decoded = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         except:
             return exc.invalid_token_exception("Invalid or expired Token")
-        exists = self._repository.get(query.eq(TokenModel.access_token, decoded))
+        exists = self._repository.get(
+            query.eq(TokenModel.access_token, decoded))
         if not exists:
             return exc.invalid_token_exception("Invalid or Expired Token")
         return exists
 
 
-def protected_route():
-    return AuthValidator(Depends(get_database_connection))
+async def protected_route(user=Depends(AuthValidator(get_database_connection(Request)))):
+    return {"message": "This route is protected"}
