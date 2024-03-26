@@ -92,6 +92,18 @@ class GetRefreshTokenUseCase:
         }
 
 
+class LogOutUseCase:
+    def __init__(self, context: DbConnectionHandler, user: User) -> None:
+        self._repository = AuthRepository(context)
+        self._user = user
+
+    async def execute(self):
+        print(self._user)
+        await self._repository.delete(
+            query.eq(TokenModel.user_id, self._user.id)
+        )
+
+
 def _create_tokens(user: User):
     access_token = create_token(
         {"sub": user.email}, timedelta(minutes=ACCESS_TOKEN_EXPIRES)

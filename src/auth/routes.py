@@ -28,3 +28,11 @@ async def get_refresh_token(
     user: User = Depends(protected_route)
 ):
     return await domain.GetRefreshTokenUseCase(context, refresh_token_payload, user).execute()
+
+
+@router.delete("/token/logout", status_code=204)
+async def user_logout(
+    context: DbConnectionHandler = Depends(dependencies.get_database_connection),
+    user: User = Depends(protected_route)
+):
+    await domain.LogOutUseCase(context, user).execute()

@@ -37,7 +37,6 @@ class AuthRepository(Repository):
 
     async def delete(self, clause: QueryExpression) -> None:
         result = await self.context.acquire_session().find_one(TokenModel, clause)
-        
+
         if first := result:
             await self.context.acquire_session().delete(first)
-        return exc.not_found_exception("token", "Token")
