@@ -10,3 +10,7 @@ class Token(Schema):
     access_token: str
     refresh_token: str
     created_at: datetime
+
+
+class ExtendedToken(Token):
+    id: ObjectId
