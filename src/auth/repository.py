@@ -11,7 +11,7 @@ class AuthRepository(Repository):
         return schemas.Token.model_validate(
             {
                 "user_id": obj.user_id,
-                "token": obj.token,
+                "access_token": obj.access_token,
                 "refresh_token": obj.refresh_token,
                 "created_at": obj.created_at
             } 

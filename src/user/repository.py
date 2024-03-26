@@ -15,6 +15,7 @@ class UserRepository(Repository):
                 "id": obj.id,
                 "nickname": obj.nickname,
                 "email": obj.email,
+                "password": obj.password
             }
         )
     
@@ -25,7 +26,7 @@ class UserRepository(Repository):
             raise exc.already_exists_exception(e, payload)
 
     async def get(self, clause: QueryExpression) -> schemas.User:
-        result = self.context.acquire_session().find_one(UserModel, clause)
+        result = await self.context.acquire_session().find_one(UserModel, clause)
 
         if first := result:
             return self.to_dto(first)
