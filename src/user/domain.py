@@ -40,14 +40,14 @@ class UpdateUserUseCase:
         if self._payload.password:
             hashed_password = get_password_hash(self._payload.password)
         await self._repository.update(query.eq(UserModel.id, self._user.id),
-            schemas.UpdateUser(
-                nickname=self._payload.nickname,
-                password=hashed_password if hashed_password else None
-            )
+        schemas.UpdateUser(
+            nickname=self._payload.nickname,
+            password=hashed_password if hashed_password else None
         )
+    )
 
 
-class DeleteUserUseCase:
+class DeleteSelfUserUseCase:
     def __init__(self, context: DbConnectionHandler, user: ExtendedUser) -> None:
         self._repository = UserRepository(context)
         self._user = user

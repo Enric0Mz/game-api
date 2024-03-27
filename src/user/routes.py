@@ -21,8 +21,18 @@ async def get_me(
 
 @router.patch("/", status_code=204)
 async def update_information(
-    context: DbConnectionHandler = Depends(dependencies.get_database_connection),
+    context: DbConnectionHandler = Depends(
+        dependencies.get_database_connection),
     user: ExtendedUser = Depends(protected_route),
     payload: schemas.UpdateUserPayload = Body(...)
 ):
     return await domain.UpdateUserUseCase(context, user, payload).execute()
+
+
+@router.delete("/", status_code=204)
+async def delete_self_user(
+    context: DbConnectionHandler = Depends(
+        dependencies.get_database_connection),
+    user: ExtendedUser = Depends(protected_route)
+):
+    return await domain.DeleteSelfUserUseCase(context, user).execute()
