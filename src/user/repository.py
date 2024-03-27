@@ -30,3 +30,7 @@ class UserRepository(Repository):
         obj = await self.context.acquire_session().find_one(UserModel, clause)
         obj.model_update(payload.model_dump(exclude_none=True))
         await self.context.acquire_session().save(obj)
+
+    async def delete(self, clause: QueryExpression) -> None:
+        obj = await self.context.acquire_session().find_one(UserModel, clause)
+        await self.context.acquire_session().delete(obj)
