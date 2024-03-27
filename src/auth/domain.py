@@ -110,7 +110,6 @@ class LogOutUseCase:
         self._user = user
 
     async def execute(self):
-        print(self._user)
         await self._repository.delete(
             query.eq(TokenModel.user_id, self._user.id)
         )
@@ -123,7 +122,7 @@ class CreateUserUseCase:
 
     async def execute(self):
         await self._repository.create(
-            schemas.User(
+            User(
                 nickname=self._payload.nickname,
                 email=self._payload.email,
                 password=get_password_hash(self._payload.password),
@@ -163,7 +162,7 @@ class AuthValidator(HTTPBearer):
         return exists
 
 
-async def protected_route(user=Depends(AuthValidator(get_database_connection(Request)))):
+def protected_route(user=Depends(AuthValidator(get_database_connection(Request)))):
     return user
 
 
