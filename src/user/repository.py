@@ -20,8 +20,14 @@ class UserRepository(Repository):
             }
         )
 
-    async def get(self, clause: QueryExpression) -> User:
+    async def get(self, clause: QueryExpression) -> ExtendedUser:
         result = await self.context.acquire_session().find_one(UserModel, clause)
 
         if first := result:
             return self.to_dto(first)
+        
+    async def update(self, clause: QueryExpression, payload) -> None:
+        user = await self.context.acquire_session().find_one(UserModel, clause)
+        if user:
+            await self.context.acquire_session().save(UserModel, payload)
+        raise exc.not_found_exception("user", "User")
