@@ -2,7 +2,7 @@ from fastapi import APIRouter, Body, Depends
 
 from src.api import dependencies
 from src.database.connection import DbConnectionHandler
-from src.common.user import User
+from src.common.user import User, ExtendedUser
 from src.auth.domain import protected_route
 
 from . import domain, schemas
@@ -17,3 +17,12 @@ async def get_me(
     user: User = Depends(protected_route)
 ):
     return await domain.GetUserMeUseCase(context, user).execute()
+
+
+@router.patch("/", status_code=204)
+async def update_information(
+    context: DbConnectionHandler = Depends(dependencies.get_database_connection),
+    user: ExtendedUser = Depends(protected_route),
+    payload: schemas.UpdateUserPayload = Body(...)
+):
+    return await domain.UpdateUserUseCase(context, user, payload).execute()

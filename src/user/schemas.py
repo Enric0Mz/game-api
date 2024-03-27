@@ -12,9 +12,9 @@ class CurrentPassword(Schema):
 
 class UpdateUserPayload(Schema):
     current: CurrentPassword
-    nickname: str
-    password: str
-    confirm_password: str 
+    nickname: str | None
+    password: str | None
+    confirm_password: str | None 
 
 
 class UpdateUser(Schema):

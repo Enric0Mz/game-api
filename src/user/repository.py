@@ -25,6 +25,9 @@ class UserRepository(Repository):
 
         if first := result:
             return self.to_dto(first)
-        
-    async def update(self, payload: schemas.UpdateUser) -> None:
-        await self.context.acquire_session().save(UserModel(**payload.model_dump(exclude_unset=True)))
+
+    async def update(self, clause: QueryExpression, payload: schemas.UpdateUser) -> None:
+        obj = await self.context.acquire_session().find_one(UserModel, clause)
+        obj.model_update(payload.model_dump(exclude_unset=True))
+        await self.context.acquire_session().save(obj)
+
