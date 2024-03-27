@@ -39,7 +39,7 @@ class UpdateUserUseCase:
 
         if self._payload.password:
             hashed_password = get_password_hash(self._payload.password)
-
+        print(self._payload.nickname)
         await self._repository.update(query.eq(UserModel.id, self._user.id),
             schemas.UpdateUser(
                 nickname=self._payload.nickname,

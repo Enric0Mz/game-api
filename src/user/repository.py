@@ -28,6 +28,5 @@ class UserRepository(Repository):
 
     async def update(self, clause: QueryExpression, payload: schemas.UpdateUser) -> None:
         obj = await self.context.acquire_session().find_one(UserModel, clause)
-        obj.model_update(payload.model_dump(exclude_unset=True))
+        obj.model_update(payload.model_dump(exclude_none=True))
         await self.context.acquire_session().save(obj)
-
