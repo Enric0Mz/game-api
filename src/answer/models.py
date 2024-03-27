@@ -18,7 +18,8 @@ class QuestionModelEmbedded(EmbeddedModel):
     point_value: int
 
 
-class AnswerModel(Model):  # TODO add user later
+class AnswerModel(Model):
+    user_id: ObjectId
     created_at: datetime
     choice: ChoiceModelEmbedded
     question: QuestionModelEmbedded

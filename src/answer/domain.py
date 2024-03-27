@@ -7,6 +7,7 @@ from src.points.repository import PointRepository
 from src.points.schemas import ExtendedPoint
 from src.question.models import QuestionModel
 from src.question.repository import QuestionRepository
+from src.common.user import ExtendedUser
 
 from . import schemas
 from .repository import AnswerRepository
@@ -14,13 +15,14 @@ from .repository import AnswerRepository
 
 class CreateAnswerUseCase:
     def __init__(
-        self, context: DbConnectionHandler, question_id: str, choice_id: str
+        self, context: DbConnectionHandler, question_id: str, choice_id: str, user: ExtendedUser
     ) -> None:
         self._repository = AnswerRepository(context)
         self._question_repository = QuestionRepository(context)
         self._point_repository = PointRepository(context)
         self._question_id = question_id
         self._choice_id = choice_id
+        self._user = user
 
     async def execute(self):
         question = await self._question_repository.get(
@@ -36,7 +38,7 @@ class CreateAnswerUseCase:
 
         answer = await self._repository.create(
             schemas.Answer(
-                created_at=datetime.now(timezone.utc), choice=choice, question=question
+                created_at=datetime.now(timezone.utc), choice=choice, question=question, user_id=self._user.id
             )
         )
 
