@@ -21,6 +21,12 @@ def incorrect_password_exception():
     )
 
 
+def unmatch_passwords_exception():
+    raise HTTPException(
+        status_code=status.HTTP_409_CONFLICT, detail="Passwords dont match"
+    )
+
+
 def invalid_token_exception(refused_reason: str):
     raise HTTPException(
         status_code=status.HTTP_403_FORBIDDEN, detail=refused_reason
