@@ -21,9 +21,9 @@ class PointRepository(Repository):
         )
 
     async def fetch(
-        self,  # clause: QueryExpression
+        self, clause: QueryExpression
     ):
-        result = await self.context.acquire_session().find(PointModel)
+        result = await self.context.acquire_session().find(PointModel, clause)
 
         return [self.to_dto(obj) for obj in result]
 
