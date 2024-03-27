@@ -14,6 +14,7 @@ class AnswerRepository(Repository):
                 "created_at": obj.created_at,
                 "choice": obj.choice,
                 "question": obj.question,
+                "user_id": obj.user_id
             }
         )
 

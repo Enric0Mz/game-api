@@ -30,7 +30,7 @@ class CreateGameUseCase:
         self._payload = payload
 
     async def execute(self):
-        curdate = datetime.now(timezone.utc)()
+        curdate = datetime.now(timezone.utc)
         return await self._repository.create(
             schemas.CreateGame(
                 subject=self._payload.subject,
